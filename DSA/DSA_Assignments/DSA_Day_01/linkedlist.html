@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+</head>
+<body>
+    <div id="display"></div>
+    <button type="submit" id="add">Add a node</button>
+    <button type="submit" id="del">Delete a node</button>
+    <button type="submit" id="prnt">Print the Linkedlist</button>
+    <script src="linkedlist.js"></script>
+    <script>
+        class Node {
+    constructor(data, next = null)
+    {
+        this.data = data;
+        this.next = next;
+    }
+}
+
+class LinkedList {
+    constructor() {
+        this.head = null;
+        this.tail = null;
+        this.size = 0;
+    }
+
+    add(data) {
+        if(this.head == null){
+            this.head = new Node(data);
+            this.tail = this.head;
+            this.size++;
+        }
+        else{
+            this.tail.next = new Node(data);
+            this.tail = this.tail.next;
+            this.size++;
+        }
+    }
+
+    remove(data)
+    {
+        let tempHead = this.head;
+        let prevNode;
+        while(tempHead.data !== data){
+            prevNode = tempHead;
+            tempHead = tempHead.next;
+        }
+        prevNode.next = tempHead.next;
+        this.size--;
+    }
+
+    print() {
+        let currentNode = this.head;
+
+        while(currentNode) {
+            console.log(currentNode.data);
+            currentNode = currentNode.next;
+        }
+    }
+}
+
+let item = new LinkedList();
+
+$("#add").on('click', function() {
+    item.add(parseInt(prompt("Enter a data to be inserted into the Linked List: ")));
+})
+$("#del").on('click', function() {
+    item.remove(parseInt(prompt("Enter a data to be removed from the Linked List: ")));
+})
+
+$("#prnt").on('click', function() {
+    item.print();
+})
+    </script>
+</body>
+</html>

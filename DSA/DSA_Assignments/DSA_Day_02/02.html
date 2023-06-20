@@ -1,0 +1,28 @@
+<!-- 2.	Implement insertion sort algorithm to sort a numeric array in JavaScript.  -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    document.write('unsorted array :'+([32,2,1,5,44,90]))
+    const insertion_Sort = (nums) => {
+    for (let i = 1; i < nums.length; i++) {
+    let j = i - 1
+    let temp = nums[i]
+    while (j >= 0 && nums[j] > temp) {
+      nums[j + 1] = nums[j]
+      j--
+    }
+    nums[j+1] = temp
+  }
+  return nums
+}
+document.write('<br><br>sorted array using insertion sort :'+insertion_Sort([32,2,1,5,44,90]))
+</script>
+</body>
+</html>

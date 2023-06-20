@@ -1,0 +1,33 @@
+package MyPack;
+
+public class LinearSearch {
+
+	public static void main(String[] args) {
+		 int arr[] = { 16, 6, 21, 36, 3, 43, 68, 18 };
+	        int x = 43;
+	 
+	        // Function call
+	        int result = search(arr, x);
+	        if (result == -1)
+	            System.out.print(
+	                "Element is not present in array");
+	        else
+	            System.out.print("Element is present at index "
+	                             + result);
+	    }
+	public static int search(int arr[], int x)
+    {
+        int N = arr.length;
+        for (int i = 0; i < N; i++) {
+            if (arr[i] == x)
+                return i;
+        }
+        return -1;
+    }
+
+}
+
+------------------------------------------------------------------------------------------------------
+Time complexity:
+Ex: 1+2+3…+n/n which can also represent as n(n+1)/2n and final time complexity can be represent as 
+	O(n+1)/2

@@ -1,0 +1,42 @@
+<!-- 1.	Implement bubble sort algorithm to sort a numeric array in JavaScript.  -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+        document.write(`unsorted array : [92, 5, 1, 9, 80, -4]`)
+        function bubbleSort(arr) {
+            var i, j;
+            var len = arr.length;
+            var isSwapped = false;
+            for (i = 0; i < len; i++) {
+                isSwapped = false;
+                for (j = 0; j < len; j++) {
+                    if (arr[j] > arr[j + 1]) {
+                        var temp = arr[j]
+                        arr[j] = arr[j + 1];
+                        arr[j + 1] = temp;
+                        isSwapped = true;
+                    }
+                }
+                if (!isSwapped) {
+                    break;
+                }
+            }
+            document.write('<br>sorted array is <br>' + arr)
+        }
+        var arr = [92, 5, 1, 9, 80, -4];
+        bubbleSort(arr)
+    </script>
+
+</body>
+
+</html>

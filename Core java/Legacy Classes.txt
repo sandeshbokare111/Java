@@ -1,0 +1,30 @@
+Legacy Classes - Java Collections-->
+Early version of java did not include the Collections framework.
+It only defined several classes and interfaces that provide methods for storing objects.
+When Collections framework were added in J2SE 1.2, the original classes were reengineered
+ to support the collection interface. These classes are also known as Legacy classes. 
+All legacy classes and interface were redesign by JDK 5 to support Generics. 
+In general, the legacy classes are supported because there is still some code that uses them.
+
+The following are the legacy classes defined by java.util package-->
+Dictionary
+HashTable
+Properties
+Stack
+Vector
+
+There is only one legacy interface called --> Enumeration
+Enumeration interface
+Enumeration interface defines method to enumerate(obtain one at a time) through 
+collection of objects.
+This interface is superseded(replaced) by Iterator interface.
+However, some legacy classes such as Vector and Properties defines several
+method in which Enumeration interface is used.
+It specifies the following two methods---->>
+boolean hasMoreElements() //It returns true while there are still more elements to extract,
+and returns false when all the elements have been enumerated.
+
+Object nextElement() //It returns the next object in the enumeration 
+i.e. each call to nextElement() method
+obtains the next object in the enumeration. It throws NoSuchElementException when the
+enumeration is complete.

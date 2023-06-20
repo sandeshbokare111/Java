@@ -1,0 +1,7 @@
+First finish with the Exception Handling.(Tommorow Agenda)
+
+And then go through the Collections.(Before going to Bgnlr)
+
+Start with the Multithreading().
+
+Start with the preparations for the inteview.

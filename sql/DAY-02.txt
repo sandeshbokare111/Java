@@ -1,0 +1,127 @@
+--. Write a query that displays all the rows from the Person.Person table where the rows 
+--were modified after December 29, 2000. Display the business entity ID number, the name 
+--columns, and the modified date. 
+select BusinessEntityID,FirstName,MiddleName,LastName,ModifiedDate from Person.Person
+where ModifiedDate > '2000-12-29'
+order by ModifiedDate
+
+--2. Rewrite the query from question 1 so that it displays the rows that were not modified 
+--during December 2000. 
+select BusinessEntityID,FirstName,MiddleName,LastName,ModifiedDate from Person.Person
+where ModifiedDate not between ('2000-12-01') and ('2000-12-31')
+
+--3. Write a query that displays the product ID and name for each product from the 
+--Production.Product table with the name starting with Chain. 
+select ProductID,Name from Production.Product
+where Name LIKE 'Chain%'
+
+--4. Write a query that displays the business entity ID number, first name, middle name, and 
+--last name from the Person.Person table for only those rows that have E or B stored in the 
+--middle name column. 
+select BusinessEntityID,FirstName,MiddleName,LastName  from Person.Person
+where MiddleName LIKE '%E%' or MiddleName LIKE '%B%'
+
+--5. Write a query displaying the order ID, order date, and total due from the 
+--Sales.SalesOrderHeader table. Retrieve only those rows where the order was placed 
+--during the month of September 2001 and the total due exceeded $1,000. 
+select SalesOrderID,OrderDate,
+TotalDue from Sales.SalesOrderHeader
+where TotalDue>1000 and Month(OrderDate)=09 and Year(OrderDate)=2001
+select * from Sales.SalesOrderHeader
+
+--6. Write a query displaying the sales orders where the total due exceeds $1,000. Retrieve 
+--only those rows where the salesperson ID is 279 or the territory ID is 6. 
+select SalesPersonID,TerritoryID,
+TotalDue from Sales.SalesOrderHeader
+where (TotalDue>1000) and (SalesPersonID is not null) and ( SalesPersonID = '279'  or TerritoryID = '6')
+order by TotalDue
+
+--7. Write a query displaying the ProductID, Name, and Color columns from rows in the 
+--Production.Product table. Display only those rows in which the color is not blue.
+select * from Production.Product
+select ProductID,Name,Color
+from Production.Product
+where Color not  like 'Blue'
+
+--8. Write a query that returns the business entity ID and name columns from the 
+--Person.Person table. Sort the results by LastName, FirstName, and MiddleName. 
+select BusinessEntityID, FirstName,MiddleName,LastName from Person.Person
+order by LastName,MiddleName,FirstName
+
+--9. Write a query that displays in the �AddressLine1 (City PostalCode)� format from the 
+--Person.Address table. 
+select CONCAT(AddressLine1,PostalCode) as [Adress] from Person.Address
+
+--10. Write a query using the Production.Product table displaying the product ID, color, and 
+--name columns. If the color column contains a NULL value, replace the color with No 
+--Color.
+select ProductID,Color, isnull(Color,'No Color'),Name
+from Production.Product
+
+
+--11. Modify the query written in question 2 so that the description of the product is displayed 
+--in the �Name: Color� format. Make sure that all rows display a value even if the Color 
+--value is missing. 
+select concat( Name, ' : ' ,ISNULL(Color,'No color'))as [Name : Color]  from Production.Product
+
+--12. Write a query using the Sales.SpecialOffer table. 
+--Display the difference between the MinQty and MaxQty columns 
+select * from Sales.SpecialOffer
+--along with the SpecialOfferID and Description columns.
+select SpecialOfferID,Description,
+isnull((MaxQty-MinQty),0) as [Diff Table] from Sales.SpecialOffer
+
+--13. Write a query using the Sales.SpecialOffer table that multiplies the MaxQty 
+--column by the DiscountPCT column. If the MaxQty value is null, 
+--replace it with the value 10. Include the SpecialOfferID and Description columns in the results.
+select SpecialOfferID,Description,
+isnull(MaxQty*DiscountPct,0) as [Multi Table] from Sales.SpecialOffer
+
+--14. Write a query that displays the first 10 characters of the AddressLine1 
+--column in the Person.Address table.
+select substring(AddressLine1,1,10) from Person.Address
+
+--15. Write a query that calculates the number of days between the date an order
+--was placed and the date that it was shipped using the Sales.SalesOrderHeader table. 
+--Include the SalesOrderID, OrderDate, and ShipDate columns.
+select SalesOrderID,OrderDate,ShipDate,
+DATEDIFF (dd,OrderDate,ShipDate) AS [DELAY]
+from  Sales.SalesOrderHeader
+
+--16. Write a query that displays only the date, not the time, for the order date and
+--ship date in the Sales.SalesOrderHeader table. (Use any of the styles that return only date)
+select SalesOrderID,OrderDate,ShipDate,
+CONVERT(date, OrderDate) as Order_date,
+CONVERT(date, ShipDate) as Ship_date
+from Sales.SalesOrderHeader
+
+--17. Write a query that adds six months to each order date in the Sales.SalesOrderHeader table. 
+--Include the SalesOrderID and OrderDate columns.
+select SalesOrderID,OrderDate,
+DATEADD (MM,6,OrderDate)
+from  Sales.SalesOrderHeader
+
+--18. Write a query that displays the year of each order date and the numeric month of each order date
+--in separate columns in the results. Include the SalesOrderID and OrderDate columns
+select SalesOrderID,OrderDate,
+Day(OrderDate) as Order_Day,
+month(OrderDate) as Order_Month
+from  Sales.SalesOrderHeader
+
+--19. Write a statement that generates a random number between 1 and 10 each time it is run.
+SELECT FLOOR(RAND()*(10));
+
+--20. Write a query using the Sales.SalesOrderHeader table to display the orders placed during 2001 
+--by using a function. Include the SalesOrderID and OrderDate columns in the results.
+select SalesOrderID,OrderDate
+from  Sales.SalesOrderHeader
+where YEAR(OrderDate) = 2001--No records will be return as there are no orders in 2001.
+
+--21. Write a query using the Sales.SalesOrderHeader table listing the sales in order of the month 
+--the order was placed and then the year the order was placed. Include the SalesOrderID and OrderDate 
+--columns in the results.
+select SalesOrderID,OrderDate,
+month(OrderDate) as Order_Month,
+year(OrderDate) as Order_Year
+from  Sales.SalesOrderHeader
+

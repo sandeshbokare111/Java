@@ -1,0 +1,34 @@
+--1. Write a query to determine the number of customers in the Sales.Customer table.
+select Count(CustomerID) as [Total no of Customer] from Sales.Customer
+
+
+--2. Write a query using the Production.Product table that displays the minimum, maximum, and average ListPrice.
+select MIN(ListPrice) as [Min ListPrice], MAX(ListPrice) as [Max ListPrice],
+AVG(ListPrice) as [Avg ListPrice] from Production.Product
+
+--3. Write a query that shows the total number of items ordered for each product. 
+--Use the Sales.SalesOrderDetail table to write the query.
+select ProductID,sum(OrderQty) as [No of item ordered]
+from Sales.SalesOrderDetail group by ProductID,OrderQty
+
+--4. Write a query using the Sales.SalesOrderDetail table that displays a count of the 
+--detail lines for each SalesOrderID.
+
+
+
+--5. Write a query using the Production.Product table that lists a count of the products in each product line.
+select Name,ProductId,count(productLine)over(partition by productLine) as [p-line], ProductLine
+from Production.Product
+
+select Name,ProductId,count(ProductID)over(partition by productline) as [product ]
+from Production.Product
+
+select * from Production.Product
+/* 6. Write a query that displays the count of orders placed by year for each customer using 
+the Sales.SalesOrderHeader table.*/
+select count(salesOrderid)over(partition by orderdate) as [order count],
+year(orderdate) AS [year] 
+from Sales.SalesOrderHeader
+
+--7. Write a query that creates a sum of the LineTotal in the Sales.SalesOrderDetail table grouped by 
+--the SalesOrderID. Include only those rows where the sum exceeds 1,000.

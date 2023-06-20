@@ -1,0 +1,72 @@
+Map and Flat Map Methods: Both methods are intermidiate methods and returns another stream as a part of output.
+
+map() -> Used for the data tranformations.
+produces single value for each input value;
+hence it is called as One-To-One mapping.
+
+transformataion -> For example Tranforming the data from lowercase to uppercase.
+["a","b","c","d","e"]--stream-->["A","b","c","d","E"]
+converting lowercase to uppercase is called mapping and return it as a seprate stream is called as a data transformation.
+
+
+flatmap() -> It is combo of map and flattering.
+produces multiple value for each input value;
+hence it is called as One-To-many mapping.
+
+flattering -> Converting stream of stream into a single stream
+[[1,2],[2,3],[3,4],[4,5]]----stream--->[1,2,3,4,5]
+
+
+Map
+01->process stream of values
+02->it does mapping
+03->mapper function produces Single value for each input.
+04->one to one mapping.
+05->data transformation : From Stream to Stream.
+
+
+
+flatMap()
+01->process stream of stream of values.
+02->it does mapping and flattering.
+03->mapper function produces multiple values for each input.
+04->one to many mapping.
+05->data transformation : From stream<Stream to Stream.
+
+
+
+
+
+
+
+
+MAP-REDUCE Method;;;;;;;
+
+map->used for Transforming the data.
+
+reduce->Aggregating the data.(Combine stream values to produce a single output.)
+ex:stream:[2,4,6,7,8,9] sum of numbers in stream?
+map()->Used for converting stream,object. to int stream.
+reduce()->used to combine the results of int stream to sum.
+
+Signature of reduce method:
+
+T reduce( T identity, BinaryOperator<T> accumalator)->reduce(0, (a,b)->a+b)
+
+identity-> Initial value
+accumalator function-> for combining the  two values.
+
+
+
+
+
+Parallel Streams();
+
+It is meant for using multiple cores of the processor.
+
+Note: normally any java code has one stream for processing, where it executed sequentially which is time consuming.
+Whereas in parallel streams, we can devide the code into multiple streams, that are executed in parallel on separate cores,
+and final result is the combination of the individual outcomes, for ex(sum of list).
+where order of execution is not in our cotrol.
+
+

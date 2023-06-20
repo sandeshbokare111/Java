@@ -1,0 +1,141 @@
+		Spring AOP
+-----------------------------------------------
+1. create package com.demo8
+2. First Add Dependencies for AOP
+<!-- https://mvnrepository.com/artifact/org.springframework/spring-aop -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>5.3.14</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjrt -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>1.9.6</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>1.9.6</version>
+		</dependency>
+--------------------------------------------------------
+3. create Interface PaymentService
+------------------------------------
+package com.demo8;
+
+
+public interface PaymentService {
+
+	public void payment();
+}
+-----------------------------------------
+4.create class PaymentServiceImpl implements PaymentService
+---------------------------------------------------------------
+package com.demo8;
+
+public class PaymentServiceImpl implements PaymentService {
+
+	public void payment() {
+		System.out.println("Payment Started");
+
+		System.out.println("Payment Done");
+
+	}
+
+}
+---------------------------------------------------------------
+5. create class MyAspect
+------------------------
+package com.demo8;
+
+import java.util.Scanner;
+
+import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+
+@Aspect
+public class MyAspect {
+	static Scanner input = new Scanner(System.in);
+	@Before("execution(* com.demo2.PaymentServiceImpl.payment())")
+	public void printBefore() {
+		System.out.println("Enter Your Username");
+		String uname= input.next();
+		System.out.println("Enter your Password");
+		String pass=input.next();
+		if(uname.equals("admin")&&pass.equals("admin")) {
+			System.out.println("You are Validated");
+		}
+		else {
+			System.out.println("Not Validated");
+			System.exit(0);
+		}
+		
+	}
+	
+	@After("execution(* com.demo2.PaymentServiceImpl.payment())")
+	public void printAfter() {
+		System.out.println("Trans. Done...");
+		
+	}
+
+}
+----------------------------------------------------------------------------
+6. create bean.xml file
+-----------------------
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/util
+    http://www.springframework.org/schema/util/spring-util.xsd
+   	http://www.springframework.org/schema/tx
+  	http://www.springframework.org/schema/tx/spring-tx.xsd
+  	http://www.springframework.org/schema/aop
+  	http://www.springframework.org/schema/aop/spring-aop.xsd">
+  	<aop:aspectj-autoproxy/>
+
+
+	<bean class="com.demo2.PaymentServiceImpl" name="payment">
+	</bean>
+	
+	<bean class="com.demo2.MyAspect" name="myaspect">
+	</bean>
+</beans>
+------------------------------------------------------------------------------
+7. create MainClass
+--------------------
+package com.demo8;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class MainClass {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		ApplicationContext context = new ClassPathXmlApplicationContext("com/demo2/bean.xml");
+        PaymentService payment= context.getBean("payment", PaymentService.class);
+        payment.payment();
+
+	}
+
+}
+------------------------------------------------------------------------------
+

@@ -1,0 +1,160 @@
+	Spring MVC Basic Demo
+-------------------------------------------
+1. create maven project as webapp template
+2. add all required dependencies
+(Note--> right click on project, go to build path
+ then configure build path, then click on add Library,
+then add Tomcat from runtimeserver)
+-----------------------------------------
+<!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>5.3.14</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.microsoft.sqlserver/mssql-jdbc -->
+		<dependency>
+			<groupId>com.microsoft.sqlserver</groupId>
+			<artifactId>mssql-jdbc</artifactId>
+			<version>9.4.0.jre11</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>5.3.14</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>5.3.14</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>5.3.14</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-web -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>5.3.14</version>
+		</dependency>
+		<dependency>
+------------------------------------------------------------------------------------------------------
+3. specify DispatcherServelt in src/main/webapp/WEB-INF/web.xml
+-------------------------------------------------------------------
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+  <display-name>Archetype Created Web Application</display-name>
+  <servlet>
+		<servlet-name>spring</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+</web-app>
+-------------------------------------------------------------------
+4. specify view resolver, for this add spring-servlet.xml file in WEB-INF folder.
+---------------------------------------------------------------------------------
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/util
+    http://www.springframework.org/schema/util/spring-util.xsd">
+
+
+    <context:component-scan base-package="com.controller"/>
+  	
+  	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" name="viewResolver">
+  		<property name="prefix" value="/WEB-INF/views/"/>
+  		<property name="suffix" value=".jsp" />
+  	</bean>
+  	
+
+</beans>
+-------------------------------------------------------------------------------------------------------------------
+5. create a package com.controller
+6. add new class HomeController
+----------------------------------------------------
+package com.controller;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+@Controller
+public class HomeController {
+	@RequestMapping("/hello")
+	@ResponseBody
+	public String message() {
+	return "Good Night";	
+	}
+	
+	@RequestMapping("/home")
+	public String home(Model model) {
+		System.out.println("This is Home url");
+		model.addAttribute("name","Krishna");
+		model.addAttribute("id",102);
+		List<String> cities = new ArrayList<String>();
+		cities.add("Mumbai");
+		cities.add("Delhi");
+		model.addAttribute("c",cities);
+		return "index";
+	}
+	
+}
+-----------------------------------------------------------------------
+8. create a folder in  WEB-INF folder by name views
+9. add index.jsp file in views folder.
+-----------------------------------------------------------------
+<%@page import="java.util.List"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Home Page</title>
+</head>
+<body>
+<h1>This is Home Page</h1>
+<% String name =(String)request.getAttribute("name") ;
+	Integer id = (Integer)request.getAttribute("id"); 
+	List<String> cities = (List<String>)request.getAttribute("c");%>
+<h2>Welcome <%=name %></h2>
+<h2>Your ID <%=id %></h2>
+<h3><%for(String city:cities){
+			out.println(city+"<br/>");
+		}%></h3>
+</body>
+</html>
+----------------------------------------------------------------------------

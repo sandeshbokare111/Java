@@ -1,0 +1,330 @@
+step 1. dispatcherServelt configure in web.xml
+----------------------------------------------
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+	<display-name>Archetype Created Web Application</display-name>
+	
+	<servlet>
+		<servlet-name>spring</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+
+</web-app>
+-----------------------------------------------------------------
+Step 2. create spring configuration file that is spring-servlet.xml in WEB-INF folder
+Step 3. configure view resolver in spring-servlet.xml file as below..
+-------------------------------------------------------------------------------------
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/util
+    http://www.springframework.org/schema/util/spring-util.xsd">
+    <context:component-scan base-package="spring.controller"/>
+  	
+  	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" name="viewResolver">
+  		<property name="prefix" value="/WEB-INF/views/"/>
+  		<property name="suffix" value=".jsp" />
+  	</bean>
+  	
+
+</beans>
+------------------------------------------------------------------------------------------------------------
+Step 4. create package and add controller
+----------------------------------------------
+package spring.controller;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+@Controller
+public class HomeController {
+	@RequestMapping("/")
+	public String message() {
+	return "message";	
+	}
+	
+	@RequestMapping("/home")
+	public String home(Model model) {
+		System.out.println("This is Home url");
+		model.addAttribute("name","Krishna");
+		model.addAttribute("id",102);
+		List<String> cities = new ArrayList<String>();
+		cities.add("Mumbai");
+		cities.add("Delhi");
+		model.addAttribute("c",cities);
+		return "index";
+	}
+	
+	@RequestMapping("/about")
+	public String aboutus() {
+		System.out.println("This is about Us");
+		
+		return "about";
+		
+	}
+	@RequestMapping("/help")
+	public ModelAndView help() {
+		
+		System.out.println("This is Help Controller");
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("name","Bhushan");
+		modelAndView.addObject("id",101);
+		modelAndView.setViewName("help");
+		return modelAndView;
+	}
+	
+	@RequestMapping("/courses")
+	public ModelAndView courses() {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("school", "IT");
+		List<String> courses = new ArrayList();
+		courses.add("Core-Java");
+		courses.add("C#");
+		courses.add("Angular");
+		modelAndView.addObject("cor",courses);
+		modelAndView.setViewName("courses");
+		
+		return modelAndView;
+	}
+}
+----------------------------------------------------------------------------------
+Step 5. create view folder in WEB-INF and add .jsp file to show view
+-----------------------------------------------------------------------
+index.jsp
+------------
+<%@page import="java.util.List"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Home Page</title>
+</head>
+<body>
+<h1>This is Home Page</h1>
+<% String name =(String)request.getAttribute("name") ;
+	Integer id = (Integer)request.getAttribute("id"); 
+	List<String> cities = (List<String>)request.getAttribute("c");%>
+<h2>Welcome <%=name %></h2>
+<h2>Your ID <%=id %></h2>
+<h3><%for(String city :cities){
+	out.println(city); }%></h3>
+</body>
+</html>
+----------------------------------------------------------------------------
+about.jsp
+-------------------
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Home Page</title>
+</head>
+<body>
+<h1>This is About Page</h1>
+</body>
+</html>
+------------------------------------------------------------------
+help.jsp
+-----------------
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Help Page</title>
+</head>
+<body>
+<h1>This is Help Page</h1>
+<%
+	String name =(String)request.getAttribute("name");
+	Integer id =(Integer)request.getAttribute("id");
+%>
+<h1><%=name %></h1>
+<h1><%=id %></h1>
+</body>
+</html>
+---------------------------------------------------------------------
+courses.jsp
+--------------------
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@page isELIgnored="false"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Courses</title>
+</head>
+<body>
+	<h1>Name of School =${school}</h1>
+	<hr>
+	<h2>Courses = ${cor}</h2>
+	<hr>
+	<h2>Courses=</h2>
+	<c:forEach var="item" items="${cor}">
+		<h3>${item}</h3>
+	</c:forEach>
+</body>
+</html>
+----------------------------------------------------------------
+
+package spring.controller;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+@Controller
+public class ContactController {
+	@RequestMapping("/contact")
+	public String showForm() {
+		return "contact";
+	}
+	//old way
+//	@RequestMapping(path="/processform" ,method=RequestMethod.POST)
+//	public String handleForm(HttpServletRequest request) {
+//		String email =request.getParameter("email");
+//		System.out.println("Done");
+//		return "";
+//	}
+	
+	@RequestMapping(path="/processform" ,method=RequestMethod.POST)
+	public String handleForm(
+			@RequestParam("email")String email,
+			@RequestParam("uname")String uname,
+			@RequestParam("pass")String password,
+			Model model)
+	{
+		System.out.println(email);
+		System.out.println(uname);
+		System.out.println(password);
+		model.addAttribute("name",uname);
+		model.addAttribute("password",password);
+		model.addAttribute("email",email);
+		return "success";
+	}
+
+}
+---------------------------------
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<!doctype html>
+<html lang="en">
+<head>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+
+<title>Contact Us</title>
+</head>
+<body>
+	<div class="container mt-5">
+	<h3 class="text-center">Registration Form</h3>
+		<form action="processform" method="post">
+			<div class="form-group">
+				<label for="exampleInputEmail1">Email address</label> <input
+					type="email" class="form-control" id="exampleInputEmail1"
+					aria-describedby="emailHelp" placeholder="Enter email" name="email"> 
+			</div>
+			<div class="form-group">
+				<label for="Username">Name</label> <input
+					type="text" class="form-control" id="uname"
+					aria-describedby="emailHelp" placeholder="Enter Name" name="uname"> 
+			</div>
+			<div class="form-group">
+				<label for="password">Password</label> <input
+					type="password" class="form-control" id="password"
+					aria-describedby="emailHelp" placeholder="Enter Password" name="pass" > 
+			</div>
+			<div class="container text-center" >
+			<button type="submit" class="btn btn-warning">Sign Up</button>
+			</div>
+			
+		</form>
+	</div>
+
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+		crossorigin="anonymous"></script>
+</body>
+</html>
+--------------------------------------------
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@page isELIgnored="false"%>
+<!doctype html>
+<html lang="en">
+<head>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+
+<title>Contact Us</title>
+</head>
+<body>
+	<h1>Welcome ${name}</h1>
+	<h1>Your Password = ${password}</h1>
+	<h1>Your Email ${email}</h1>
+</body>
+</html>
+

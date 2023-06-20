@@ -1,0 +1,440 @@
+1. create new project PreImpact13Day5RestEx
+2. add dependencies
+---------------------
+<dependencies>
+
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>5.3.17</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.13.2</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>4.0.1</version>
+			<scope>provided</scope>
+		</dependency>
+		
+		
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>javax.servlet.jsp-api</artifactId>
+			<version>2.3.1</version>
+			<scope>provided</scope>
+		</dependency>
+
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+------------------------------------------------------------------------------------
+3. create package com.model and add class Student.java
+-------------------------------------------------------
+package com.model;
+
+public class Student {
+	private String fname;
+	private String lname;
+	
+	
+	public String getFname() {
+		return fname;
+	}
+	public void setFname(String fname) {
+		this.fname = fname;
+	}
+	public String getLname() {
+		return lname;
+	}
+	public void setLname(String lname) {
+		this.lname = lname;
+	}
+	public Student(String fname, String lname) {
+		super();
+		this.fname = fname;
+		this.lname = lname;
+	}
+	public Student() {
+		
+	}
+	@Override
+	public String toString() {
+		return "Student [fname=" + fname + ", lname=" + lname + "]";
+	}
+	
+	
+
+}
+------------------------------------------------------------------------------
+4. create a package com.config for configuration
+5. add new class DemoAppConfig.java
+----------------------------------------
+package com.config;
+
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
+@Configuration
+@EnableWebMvc
+@ComponentScan(basePackages = "com")
+public class DemoAppConfig {
+
+}
+--------------------------------------------------------
+6. create a class MyDispatcherServlet.java
+------------------------------------------------
+package com.config;
+
+import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+
+
+
+public class MyDispatcherServlet extends AbstractAnnotationConfigDispatcherServletInitializer{
+
+	@Override
+	protected Class<?>[] getRootConfigClasses() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected Class<?>[] getServletConfigClasses() {
+		return new Class[] { DemoAppConfig.class };
+	}
+
+	@Override
+	protected String[] getServletMappings() {
+		return new String[] { "/" };
+	}
+
+}
+-------------------------------------------------------------------------------------
+7. create package com.rest
+8. create class MyController.java
+-----------------------------------------------
+package com.rest;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/test")
+public class MyRestController {
+	
+	@GetMapping("/hello")
+	
+	public String hello() {
+		return "Hello World";
+	}
+
+}
+--------------------------------------------------------------------------
+9. create class StudentController.java
+------------------------------------------
+package com.rest;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.model.Student;
+import com.model.StudentErrorResponse;
+
+@RestController
+@RequestMapping("/api")
+public class StudentController {
+	
+	static List<Student>  list;
+
+	@PostConstruct
+	public void loadData() {
+		
+		list=new ArrayList();
+		list.add(new Student("Bhushan", "Kumar"));
+		list.add(new Student("Vinod", "Kumar"));
+		list.add(new Student("Zakir", "Kumar"));
+		list.add(new Student("Sahil", "Kumar"));
+	}
+	
+	
+	@GetMapping(path="/gets", produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<Student> getStudent(){	
+		return list;
+	}
+	
+	@GetMapping("/student/{stid}")
+	public Student getStud(@PathVariable int stid) {
+		if((stid>=list.size())||(stid<0)) {
+			throw new StudentNotFoundException("Student Id not Found"+stid);
+		}
+		return list.get(stid);
+	}
+
+	@PostMapping("/student")
+	public Student addStudent(@RequestBody Student student) {
+//		student.setFname("Rakshit");
+//		student.setLname("Kumar");
+//		List<Student> list =getStudent();
+//		System.out.println(student.getFname());
+		list.add(student);
+		return student;
+	}
+	
+	@DeleteMapping("/student/{stid}")
+	public void deleteStudent(@PathVariable int stid) {
+		List<Student> list =getStudent();
+		list.remove(stid);
+//		return student;
+		
+	}
+	
+	@PutMapping("/student/{stid}")
+	public void updateStudent(@PathVariable int stid) {
+		List<Student> list =getStudent();
+		System.out.println(list.get(stid));
+		Student student=list.get(stid);
+		student.setFname("John");
+		student.setLname("Blunt");
+		//list.add(student);
+	}
+	
+}
+-----------------------------------------------------------------------------------------
+10. For handling Exceptions
+11. create a class StudentErrorResponse.java class in com.model
+-----------------------------------------------------------------
+package com.model;
+
+public class StudentErrorResponse {
+	private int status_code;
+	private String message;
+	private long timestramp;
+	public int getStatus_code() {
+		return status_code;
+	}
+	public void setStatus_code(int status_code) {
+		this.status_code = status_code;
+	}
+	public String getMessage() {
+		return message;
+	}
+	public void setMessage(String message) {
+		this.message = message;
+	}
+	public long getTimestramp() {
+		return timestramp;
+	}
+	public void setTimestramp(long timestramp) {
+		this.timestramp = timestramp;
+	}
+	public StudentErrorResponse(int status_code, String message, long timestramp) {
+		super();
+		this.status_code = status_code;
+		this.message = message;
+		this.timestramp = timestramp;
+	}
+	public StudentErrorResponse() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
+
+}
+-------------------------------------------------------------------------------------------
+12. for create custom exception class add new class StudentNotFoundException.java
+--------------------------------------------
+package com.rest;
+
+public class StudentNotFoundException extends RuntimeException {
+	public StudentNotFoundException(String message) {
+		super(message);
+	}
+	
+
+}
+---------------------------------------------------------------------------
+13. Add ExceptionHandler in StudentController for StudentController class
+update StudentController.java
+----------------------------------------------------
+package com.rest;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.model.Student;
+import com.model.StudentErrorResponse;
+
+@RestController
+@RequestMapping("/api")
+public class StudentController {
+	
+	static List<Student>  list;
+	
+//	@ExceptionHandler
+//	public ResponseEntity<StudentErrorResponse> handleException(StudentNotFoundException ex){
+//		
+//		StudentErrorResponse error = new StudentErrorResponse();
+//		
+//		
+//		error.setStatus_code(HttpStatus.NOT_FOUND.value());
+//		error.setMessage(ex.getMessage());
+//		error.setTimestramp(System.currentTimeMillis());
+//		return new ResponseEntity(error,HttpStatus.NOT_FOUND);
+//	}
+//	
+//	@ExceptionHandler
+//	public ResponseEntity<StudentErrorResponse> handleException(Exception ex){
+//		
+//		StudentErrorResponse error = new StudentErrorResponse();
+//		
+//		
+//		error.setStatus_code(HttpStatus.BAD_REQUEST.value());
+//		error.setMessage(ex.getMessage());
+//		error.setTimestramp(System.currentTimeMillis());
+//		return new ResponseEntity(error,HttpStatus.BAD_REQUEST);
+//	}
+//	
+	
+	@PostConstruct
+	public void loadData() {
+		
+		list=new ArrayList();
+		list.add(new Student("Bhushan", "Kumar"));
+		list.add(new Student("Vinod", "Kumar"));
+		list.add(new Student("Zakir", "Kumar"));
+		list.add(new Student("Sahil", "Kumar"));
+	}
+	
+	
+	@GetMapping(path="/gets", produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<Student> getStudent(){	
+		return list;
+	}
+	
+	@GetMapping("/student/{stid}")
+	public Student getStud(@PathVariable int stid) {
+		if((stid>=list.size())||(stid<0)) {
+			throw new StudentNotFoundException("Student Id not Found"+stid);
+		}
+		return list.get(stid);
+	}
+
+	@PostMapping("/student")
+	public Student addStudent(@RequestBody Student student) {
+//		student.setFname("Rakshit");
+//		student.setLname("Kumar");
+//		List<Student> list =getStudent();
+//		System.out.println(student.getFname());
+		list.add(student);
+		return student;
+	}
+	
+	@DeleteMapping("/student/{stid}")
+	public void deleteStudent(@PathVariable int stid) {
+		List<Student> list =getStudent();
+		list.remove(stid);
+//		return student;
+		
+	}
+	
+	@PutMapping("/student/{stid}")
+	public void updateStudent(@PathVariable int stid) {
+		List<Student> list =getStudent();
+		System.out.println(list.get(stid));
+		Student student=list.get(stid);
+		student.setFname("John");
+		student.setLname("Blunt");
+		//list.add(student);
+	}
+	
+}
+--------------------------------------------------------------------------------------
+14..create ExceptionHandler for global exception create new class StudentRestExceptionHandler.java
+-------------------------------------
+package com.rest;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import com.model.StudentErrorResponse;
+
+@ControllerAdvice
+public class StudentRestExceptionHandler {
+	
+	@ExceptionHandler
+	public ResponseEntity<StudentErrorResponse> handleException(StudentNotFoundException ex){
+		
+		StudentErrorResponse error = new StudentErrorResponse();
+		
+		
+		error.setStatus_code(HttpStatus.NOT_FOUND.value());
+		error.setMessage(ex.getMessage());
+		error.setTimestramp(System.currentTimeMillis());
+		return new ResponseEntity(error,HttpStatus.NOT_FOUND);
+	}
+	
+	@ExceptionHandler
+	public ResponseEntity<StudentErrorResponse> handleException(Exception ex){
+		
+		StudentErrorResponse error = new StudentErrorResponse();
+		
+		
+		error.setStatus_code(HttpStatus.BAD_REQUEST.value());
+		error.setMessage(ex.getMessage());
+		error.setTimestramp(System.currentTimeMillis());
+		return new ResponseEntity(error,HttpStatus.BAD_REQUEST);
+	}
+	
+
+}
+------------------------------------------------------------------------------
+

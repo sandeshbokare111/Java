@@ -1,0 +1,113 @@
+--------------------------------------------------------------------------------
+			Spring Expression Language
+--------------------------------------------------------------------------------
+1. create new Project
+2. create new package com.demo1
+3. add new class SpElEx
+-------------------------
+package com.demo1;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+@Component("sp")
+public class SpElEx {
+	public static int empId = 24;
+	@Value("Bhushan")
+	private String name;
+	@Value("#{T(com.demo1.JavaConfigurationClass).getDepartment()}")
+	private List<String> departments;
+	@Value("#{50+20}")
+	//@Value("#{T(com.demo1.SpElEx).number()}")
+	//@Value("#{T(com.demo1.SpElEx).empId}")
+	//@Value("#{new java.lang.Integer(24)}")
+	private int number;
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public List<String> getDepartments() {
+		return departments;
+	}
+
+	public void setDepartments(List<String> departments) {
+		this.departments = departments;
+	}
+
+	public int getNumber() {
+		return number;
+	}
+
+	public void setNumber(int number) {
+		this.number = number;
+	}
+
+	@Override
+	public String toString() {
+		return "SpElEx [name=" + name + ", departments=" + departments + ", number=" + number + "]";
+	}
+
+	public static int number() {
+		return 10;
+	}
+
+}
+
+----------------------------------------------------------------------------------------------------------------
+4. Add new class for Java base configuration JavaConfigurationClass
+----------------------------------------------------------------------
+package com.demo1;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+@ComponentScan(basePackages = "com.demo1")
+public class JavaConfigurationClass {
+	
+	static List<String> departments = new ArrayList<String>();
+	public static List getDepartment() {
+		departments.add("HR");
+		departments.add("Finance");
+		return departments;
+		
+	}
+
+}
+--------------------------------------------------------------------------------
+5. Add MainClass
+---------------------
+package com.demo1;
+
+
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.expression.Expression;
+import org.springframework.expression.spel.standard.SpelExpressionParser;
+
+public class MainClass {
+
+	public static void main(String[] args) {
+		ApplicationContext context = new AnnotationConfigApplicationContext(JavaConfigurationClass.class);
+		SpElEx sp= context.getBean("sp",SpElEx.class);
+		System.out.println(sp);
+		
+		SpelExpressionParser exp= new SpelExpressionParser();
+		Expression expression = exp.parseExpression("(4009+39)/(78*2)");
+		System.out.println(expression.getValue());
+
+	}
+
+}
+-----------------------------------------------------------------------------------

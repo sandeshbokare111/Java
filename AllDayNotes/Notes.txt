@@ -1,0 +1,193 @@
+DI:-
+---------------------
+Address.java
+------------
+package com.model;
+
+import org.springframework.stereotype.Component;
+
+@Component("add")
+public class Address {
+	private String city;
+	private String state;
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
+	public Address() {
+		
+	}
+	public void getEmpAddress() {
+		System.out.println("This employee from Delhi");
+	}
+	@Override
+	public String toString() {
+		return "Address [city=" + city + ", state=" + state + "]";
+	}
+	
+
+}
+------------------------------------------------------------------------------------------
+Employee.java
+-----------------------
+package com.model;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+@Component
+@Scope("prototype")
+public class Employee {
+	private int emp_id;
+	private String emp_name;
+	@Autowired
+	@Qualifier("add")
+	private Address address;
+	public Address getAddress() {
+		return address;
+	}
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+	public int getEmp_id() {
+		return emp_id;
+	}
+	public void setEmp_id(int emp_id) {
+		this.emp_id = emp_id;
+	}
+	public String getEmp_name() {
+		return emp_name;
+	}
+	public void setEmp_name(String emp_name) {
+		this.emp_name = emp_name;
+	}
+	public Employee() {
+		
+		System.out.println("Employee Object Created");
+	}
+	public void testEmployee() {
+		address.getEmpAddress();
+		System.out.println("Employee Name is Bhushan ");
+	}
+	
+
+}
+------------------------------------------------------------------------------------------------
+DI
+-----------------------
+package com.model;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
+
+@SpringBootApplication
+public class SpringBootDiExApplication {
+
+	public static void main(String[] args) {
+	ConfigurableApplicationContext context = SpringApplication.run(SpringBootDiExApplication.class, args);
+	
+	Employee emp = context.getBean(Employee.class);
+	emp.testEmployee();
+	
+	}
+
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Profile
+----------------------
+spring.profiles.active=prod
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Actuator
+------------------------------------------
+Student.java
+--------------
+package com.controller;
+
+import org.springframework.stereotype.Component;
+
+@Component
+public class Student {
+	public Student() {
+		System.out.println("Student Class Object Injected");
+	}
+}
+-----------------------------------------------------------------------------
+StudentController.java
+-----------------------------
+package com.controller;
+
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class StudentController {
+	@Autowired
+	private Student student;
+	
+	@GetMapping("/student")
+	public Map<String,String> getStudent(){
+		return Map.of("Name","John");
+	}
+
+}
+------------------------------------------------------------------------------
+package com;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class SpringActuatorApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(SpringActuatorApplication.class, args);
+	}
+
+}
+--------------------------------------------------------------------------------
+application.properties
+management.endpoints.web.exposure.include=*
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Spring Boot MVC
+---------------------------------------------
+HomeController.java
+---------------------------
+package com.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+public class HomeController {
+	
+	@RequestMapping("/")
+	public String getHome() {
+		return "home";
+	}
+
+}
+-----------------------------------------------------------------------------------------------------------------------------------
+application.properties
+------------------------------
+spring.mvc.view.prefix=/views/
+spring.mvc.view.suffix=.jsp
+
+------------------------------------------------------------------------------------------------------------------------------------
+src/main/webapp/views/home.jsp
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Video controls</h2>
+        <video width="320" height="300" poster = "nature.jpg" controls loop autoplay muted>
+            <source src="clip.mp4" type="video/mp4">
+            <source src="clip.ogy" type="video/ogy">
+        </video>
+    <br><br>
+    <h2>Audio controls</h2>
+    <audio controls>
+        <source src="clip.mp4" type="audio/mpeg">
+    </audio>
+    <br><br>
+    <style>
+        .ex1{
+            border:8px solid black;
+            padding:8px;
+        }
+    </style>
+    <fieldset>
+    <center>
+        <body>    
+        <h1>Heading 1</h1>
+        <h2>Heading 2</h2>
+        <p>A div</p>
+        <p>Paragraph</p> 
+        <p>A paragraph inside div</p>
+    </center>
+    </body>
+    </fieldset>
+    <br><br>
+    <center>
+    <fieldset style="background-color: gold; width: 300px;height: 400px;">
+            <body>   
+            <h1>Heading 1</h1>
+            <h2>Heading 2</h2>
+            <p>A div</p>
+            <p class="ex1">Paragraph</p> 
+            <p class="ex1">A paragraph inside div</p>
+        </body>
+        </fieldset>
+    </center>
+</body>
+</html>

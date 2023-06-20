@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<!-- saved from url=(0044)http://127.0.0.1:5500/New%20folder/flex.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flex layout</title>
+    <style>
+        *{
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+        }
+    .fcontainer{
+    color: white;
+    font-size: larger;
+    display: flex; 
+    height: 100vh; 
+    width: 100vw;
+    }
+    .ex{
+        width:13%;
+        height:100%;
+        display:flex;
+        font-size: 30px;
+        justify-content: center;
+        align-items: flex-start;
+    }
+    @media only screen and (max-width:1200px) {
+        .fcontainer{
+            height: 80vh;
+            width: 60vw;
+        }
+    }
+    </style>
+</head>
+<body>
+    <section class="fcontainer">
+        <div class="ex" style="background-color: rgba(85, 4, 4, 0.9);padding: 30px;">Flex <br> Item<br> 01</div>
+        <div class="ex" style="background-color: rgb(151, 235, 16);padding: 30px;">Flex <br> Item<br> 02</div>
+        <div class="ex" style="background-color: rgb(16, 7, 129);padding: 30px;">Flex <br> Item<br> 03</div>
+        <div class="ex" style="background-color: rgb(19, 130, 233);padding: 30px;">Flex <br> Item<br> 04</div>
+        <div class="ex" style="background-color: orange;padding: 30px;">Flex <br> Item<br> 05</div>
+        <div class="ex" style="background-color: rgb(15, 242, 102);padding: 30px;">Flex <br> Item<br> 06</div>
+        <div class="ex" style="background-color: rgb(164, 13, 13);padding: 30px;">Flex <br> Item<br> 07</div>
+        <div class="ex" style="background-color: rgb(22, 141, 206);padding: 30px;">Flex <br> Item<br> 08</div>
+    </section>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+
+</body></html>

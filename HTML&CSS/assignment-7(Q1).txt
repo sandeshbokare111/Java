@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form>
+    <fieldset>
+    <h1>Put Your HTML in a Box</h1>
+    <p>scott Allen | July 1,2010</p>
+    <button type = "button">button1</button>
+    <button type = "button">button2</button>
+    <button type = "button">button3</button>
+    <h2>The Box model</h2>
+    <p>Every element you places on a page creates a box. you can not always see the 
+    eachh box has properties you can set with CSS.I've illustrated some of these.
+    </p>
+    <h3>Figure 1 border ,padding,and margin</h3>
+    <p>The <i>padding</i> of a box is the distance between the content of the box 
+        and the box while a margin adds space outside the border.In the following CSS,
+        I set both
+        <br><br>
+        The border surrounding every element is not visible by default but 
+        by using we can see in Figure 1 is the result of a style rule telling the
+        browser to draw a solid.
+    </p>
+    <figure>
+        <img src="scott.jpg">
+    </figure>
+    <h3>About the Author</h3>
+    <p>Scott Allen is the Principal Consultant a founder of odeToCode LIC.</p>
+    <h4>Find Scott on: </h4>
+    <ul>
+        <li>Twitter - <a href="Odetocode.com">@odeToCode</a></li>
+        <li><a href="https://en.wikipedia.org/wiki/Scott">Scott's Blog</a></li>
+    </ul>
+    </fieldset>
+    </form>
+</body>
+</html>

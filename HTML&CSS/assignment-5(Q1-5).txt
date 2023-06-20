@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>assignment</title>
+</head>
+<body>
+    <input type="search" placeholder="search"autofocus>
+    <br><br>
+    <form>
+    <fieldset>
+        <h2>Contact Info</h2>
+        <input type="text" placeholder="first and last name"required>
+        <input type="email" placeholder="email address"required>
+        <input type="tel"  maxlength="10" placeholder="phone number"required>
+        <input type="url" placeholder="web address"required>
+        <h2>Preferences</h2>
+        <input type="number" min="1" max="10" placeholder="# of rc">
+        <br><br>
+        <input type="submit" value="Submit Info">
+    </fieldset>    
+    </form>
+    <br><br>
+    <form>
+        <fieldset>
+        <h3>Select No of days(1-31)</h3>
+        <input type="range"min="1" max="31" step="3" value="9">
+        </fieldset>
+    </form>
+    <br><br>
+    <form>
+    <h3>Directions</h3>
+    <input list ="directions" name="direction" id = "direction">
+    <datalist id ="directions">
+            <option value = North>
+            <option value = South>
+            <option value = East>
+            <option value = West>
+    </datalist>
+    </form>
+    <br><br>
+    <h3>Date and Time</h3>
+    <form>
+    <fieldset>
+    MONTH <input type="month" value="2016-06">
+    <br><br>
+    WEEK <input type="week" value="2019-W06">
+    <br><br>
+    DATE AND TIME <input type="datetime-local" value="2000-06-26T09:30">
+   </fieldset>    
+   </form>
+    <br><br>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+    <style>
+              body {background-color: rgb(213, 213, 250)}
+            * {
+  box-sizing: border-box;
+}
+   .column {
+  float: left;
+  width: 50%;
+  padding: 10px;
+  height: 500px; 
+}
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+</style>
+</head>
+<body>
+    <h1><b>
+        <center>Put Your HTML in a Box </center>
+    </b></h1>
+    <center>Scott Allen| July 1,2010</center>
+    <hr>
+    <div class="row">
+        <div class="column" style="background-color:white;">
+            The first step in understanding how to position elements is to understand the:
+            <h3>The Box Model</h3> 
+            <p>Every element you place on a page creates a box. You cannot always see the boundaries and the borders of the boxes you create, but the boxes are there. A div element creates a box, as do h1,img,span, and td elements. Each box has properties you can set with CSS. I have  illustrated some of these properties in Figure 1.</p>
+            </p>
+            <h4>Figure 1 Border;padding and margin </h4>
+        <p> 
+            The <i>padding </i>of a box is the distance between the content of the box and the box border, and themargin is the distance between a box and any adjacent element. In other words, padding adds space inside the border, while a margin adds space outside the border. In the following CSS, I set both the padding and the margin to a distance of 10 pixels. This is why you can see so much white space in Figure 1. <br>The border surrounding every element is not visible by default, but by using CSS I can change the color of an elements border, as well as the thickness and line style the browser uses when drawing the border. What you see in Figure 1 is the result of a style rule telling the browser to draw a solid, thin, red line around the box that each div element creates.
+        </p>
+        </div>
+        <div class="column" style="background-color:rgba(214, 160, 227, 0.295);">
+            <img src="Scott.jpg" alt="" width="200px" height="200px">
+            <figcaption><b>About the Author</b></figcaption>
+            Scott Allen is the Principal Consultant and a founder of OdeToCode LLC.
+            <br>
+            <b>Find Scott on:</b>
+            <ul>
+                <li>Twitter-<a href="OdeToCode.html">@OdeToCode</a></li>
+                <li><a href="Scott.html">Scott's Blog</a></li>
+            </ul>
+        </div>
+      </div>
+</body>
+</html>

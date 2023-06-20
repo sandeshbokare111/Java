@@ -1,0 +1,118 @@
+create maven project first then add following depenedecies.
+Step1----------Pom.xml-----------------
+add only following two depend.---------
+<!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>5.3.14</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>5.3.14</version>
+		</dependency>
+--------------------------------------------
+create new java class Student.java
+----------------------------------
+package com.pojo;
+
+public class Student {
+	private String studentId;
+	private String studentName;
+	private String studentAddress;
+	public String getStudentId() {
+		return studentId;
+	}
+	public void setStudentId(String studentId) {
+		this.studentId = studentId;
+	}
+	public String getStudentName() {
+		return studentName;
+	}
+	public void setStudentName(String studentName) {
+		this.studentName = studentName;
+	}
+	public String getStudentAddress() {
+		return studentAddress;
+	}
+	public void setStudentAddress(String studentAddress) {
+		this.studentAddress = studentAddress;
+	}
+	public Student(String studentId, String studentName, String studentAddress) {
+		super();
+		this.studentId = studentId;
+		this.studentName = studentName;
+		this.studentAddress = studentAddress;
+	}
+	public Student() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	@Override
+	public String toString() {
+		return "Student [studentId=" + studentId + ", studentName=" + studentName + ", studentAddress=" + studentAddress
+				+ "]";
+	}
+	
+	
+}
+-------------------------------------------------------------------
+create a config.xml file-------
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+                http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean class="com.pojo.Student" name="student1">
+	<property name="studentId">
+	<value>101</value></property>
+	<property name="studentName">
+	<value>Bhushan Paradkar</value></property>
+	<property name="studentAddress">
+	<value>Mumbai</value></property>
+	</bean>
+	
+	<bean class="com.pojo.Student" name="student2">
+	<property name="studentId" value="001"/>
+	
+	<property name="studentName" value="Prachi"/>
+	
+	<property name="studentAddress" value="Karanja"/>
+	
+	</bean>
+	<bean class="com.pojo.Student" name="student3" p:studentId="002" p:studentName="Nayan" p:studentAddress="Borgaon"  />
+	
+</beans>  
+---------------------------------------------------------------------
+add new class to add main method
+App.java
+
+package com.pojo;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+/**
+ * Hello world!
+ *
+ */
+public class App 
+{
+    public static void main( String[] args )
+    {
+        System.out.println( "Hello World!" );
+        ApplicationContext context  = new ClassPathXmlApplicationContext("config.xml");
+        Student student = (Student) context.getBean("student1");
+        System.out.println(student);
+        Student student1 = (Student) context.getBean("student2");
+        System.out.println(student1);
+        Student student2 = (Student) context.getBean("student3");
+        System.out.println(student2);
+    }
+}
+-----------------------------------------------------------------

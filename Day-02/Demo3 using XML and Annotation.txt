@@ -1,0 +1,86 @@
+		XML+Annotation base config using stereotype Annotation
+---------------------------------------------------------------------------
+1. create package com.demo3
+2. create class Employee
+package com.demo3;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+//@Component
+@Component("emp")
+@Scope("prototype")
+public class Employee {
+	@Value("101")
+	private int empID;
+	@Value("John")
+	private String empName;
+	@Value("Mumbai")
+	private String empAddress;
+	public int getEmpID() {
+		return empID;
+	}
+	public void setEmpID(int empID) {
+		this.empID = empID;
+	}
+	public String getEmpName() {
+		return empName;
+	}
+	public void setEmpName(String empName) {
+		this.empName = empName;
+	}
+	public String getEmpAddress() {
+		return empAddress;
+	}
+	public void setEmpAddress(String empAddress) {
+		this.empAddress = empAddress;
+	}
+	@Override
+	public String toString() {
+		return "Employee [empID=" + empID + ", empName=" + empName + ", empAddress=" + empAddress + "]";
+	}
+	
+
+}
+------------------------------------------------------------------------------
+3. create bean.xml file
+-----------------------
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/util
+    http://www.springframework.org/schema/util/spring-util.xsd">
+    
+	<context:component-scan base-package="com.demo3"/>
+</beans>
+-------------------------------------------------------------------------------
+4. create MainClass
+---------------------
+package com.demo3;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class MainClass {
+
+	public static void main(String[] args) {
+		ApplicationContext context = new ClassPathXmlApplicationContext("com/demo3/bean.xml");
+		Employee emp = context.getBean("emp",Employee.class);
+		System.out.println(emp);
+		
+		Employee emp1 = context.getBean("emp",Employee.class);
+		System.out.println(emp.hashCode());
+		System.out.println(emp1.hashCode());
+
+	}
+
+}
+------------------------------------------------------------------------------------

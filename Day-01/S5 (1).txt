@@ -1,0 +1,63 @@
+create a class Addition.java
+------------------------
+package com.amb.demo;
+
+public class Addition {
+	private int a;
+	private int b;
+	public Addition(double a,double b) {
+		this.a=(int)a;
+		this.b=(int)b;
+		System.out.println("Constructor Double Double");
+	}
+	public Addition(int a, int b) {
+		this.a=a;
+		this.b=b;
+		System.out.println("Constructor Int Int");
+	}
+	public Addition(String a,String b) {
+		this.a=Integer.parseInt(a);
+		this.b=Integer.parseInt(b);
+		System.out.println("Constructor String String");
+	}
+	public void doSum() {
+		System.out.println("Value of A ="+this.a);
+		System.out.println("Value of B ="+this.b);
+		System.out.println("Sum is = "+(this.a+this.b));
+	}
+	
+}
+----------------------------------
+create a ambconfig.xml
+------------------------
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+                http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean class="com.amb.demo.Addition" name="addition">
+		<constructor-arg value="12" type="double" />
+		<constructor-arg value="13" type="double"/>
+	</bean>
+	
+</beans>  
+----------------------------------------
+create new class MyMain.java
+------------------------
+package com.amb.demo;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class Mymain {
+
+	public static void main(String[] args) {
+		ApplicationContext context =new ClassPathXmlApplicationContext("com/amb/demo/ambconfig.xml");
+		Addition add = (Addition) context.getBean("addition");
+		
+		add.doSum();
+	}
+
+}

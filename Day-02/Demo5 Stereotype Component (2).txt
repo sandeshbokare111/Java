@@ -1,0 +1,126 @@
+	Repository StereoType Annotation
+------------------------------------------------------------
+1. create package com.demo5
+2. create class Employee
+-------------------------------
+package com.demo5;
+
+public class Employee {
+	private int emp_id;
+	private String emp_name;
+	public int getEmp_id() {
+		return emp_id;
+	}
+	public void setEmp_id(int emp_id) {
+		this.emp_id = emp_id;
+	}
+	public String getEmp_name() {
+		return emp_name;
+	}
+	public void setEmp_name(String emp_name) {
+		this.emp_name = emp_name;
+	}
+	@Override
+	public String toString() {
+		return "Employee [emp_id=" + emp_id + ", emp_name=" + emp_name + "]";
+	}
+	public Employee(int emp_id, String emp_name) {
+		super();
+		this.emp_id = emp_id;
+		this.emp_name = emp_name;
+	}
+	
+	
+
+}
+------------------------------------------------------------------------------------------
+3. create interface EmpRepo
+---------------------------
+package com.demo5;
+
+public interface EmpRepo<T> {
+
+	public void insert(T t);
+
+	public T getEmployeeById(int id);
+
+	public T deleteEmployee(int id);
+
+}
+-------------------------------------------------------
+4. create class EmployeeRepo implements EmpRepo
+----------------------------------------------
+package com.demo5;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.stereotype.Repository;
+
+@Repository
+public class EmployeeRepo implements EmpRepo<Employee> {
+	
+	private Map<Integer,Employee> reporitory;
+	
+	public EmployeeRepo() {
+		this.reporitory=new HashMap<Integer, Employee>();
+	}
+
+	
+
+	public void insert(Employee t) {
+		reporitory.put(t.getEmp_id(), t);
+		
+	}
+
+	public Employee getEmployeeById(int id) {
+		return reporitory.get(id);
+	}
+
+	public Employee deleteEmployee(int id) {
+		return reporitory.remove(id);
+	}
+
+}
+--------------------------------------------------------------------
+5. create file bean.xml
+---------------------------
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:annotation-config />
+	<context:component-scan base-package="com.demo5"/>
+
+</beans>
+------------------------------------------------------------------
+6. create MainClass
+-------------------------
+package com.demo5;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class MainClass {
+	public static void main(String[] args) {
+		ApplicationContext context = new ClassPathXmlApplicationContext("com/demo5/bean.xml");
+
+		EmployeeRepo empRepo = context.getBean(EmployeeRepo.class);
+		empRepo.insert(new Employee(1, "John"));
+		empRepo.insert(new Employee(2, "Simon"));
+		System.out.println("Employee Inserted");
+
+		Employee employee = empRepo.getEmployeeById(2);
+		System.out.println(employee);
+		
+		Employee em =empRepo.deleteEmployee(1);
+		System.out.println(em);
+	}
+
+}
+-----------------------------------------------------------------

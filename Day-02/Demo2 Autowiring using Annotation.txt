@@ -1,0 +1,123 @@
+		Autowire using Annotation
+--------------------------------------------------------------------
+1. create package com.demo2
+2. create new class Emp
+------------------------
+package com.demo2;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+
+public class Emp {
+	@Autowired
+	@Qualifier("address1")
+	private Address address;
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
+	public Emp(Address address) {
+		super();
+		this.address = address;
+	}
+
+	public Emp() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public String toString() {
+		return "Emp [address=" + address + "]";
+	}
+
+	
+
+}
+------------------------------------------------------------
+2.create class Address
+--------------------------
+package com.demo2;
+
+public class Address {
+	private String landmark;
+	private String city;
+	public String getLandmark() {
+		return landmark;
+	}
+	public void setLandmark(String landmark) {
+		this.landmark = landmark;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	@Override
+	public String toString() {
+		return "Address [landmark=" + landmark + ", city=" + city + "]";
+	}
+
+}
+----------------------------------------------------------------
+3. create a bean.xml
+--------------------
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+    <context:annotation-config></context:annotation-config>
+    
+    
+	<bean class="com.demo2.Address" name="address2" >
+		<property name="landmark" value="Gandhi statue "/>
+		<property name="city" value="Nagpur"/>
+	</bean>
+	
+	<bean class="com.demo2.Address" name="address1" >
+		<property name="landmark" value="Gandhi statue "/>
+		<property name="city" value="Mumbai"/>
+	</bean>
+		
+	<bean class="com.demo2.Emp" name="emp" scope="prototype">
+	</bean>
+	
+</beans>
+----------------------------------------------------------------------
+4. Create  class MainClass
+--------------------------
+package com.demo2;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class Main {
+
+	public static void main(String[] args) {
+		ApplicationContext context = new ClassPathXmlApplicationContext("com/demo2/bean.xml");
+		Emp emp = context.getBean("emp",Emp.class);
+		System.out.println(emp);
+		
+		Emp emp2 = context.getBean("emp",Emp.class);
+		System.out.println(emp2);
+		
+		System.out.println(emp.hashCode());
+		System.out.println(emp2.hashCode());
+
+	}
+
+}
+-------------------------------------------------------------------------
+

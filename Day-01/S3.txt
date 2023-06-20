@@ -1,0 +1,131 @@
+create a class A.java
+package com.pojo.refType;
+
+public class A {
+	private int x;
+	private B obj;
+	public int getX() {
+		return x;
+	}
+	public void setX(int x) {
+		this.x = x;
+	}
+	public B getObj() {
+		return obj;
+	}
+	public void setObj(B obj) {
+		this.obj = obj;
+	}
+	public A(int x, B obj) {
+		super();
+		this.x = x;
+		this.obj = obj;
+	}
+	public A() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	@Override
+	public String toString() {
+		return "A [x=" + x + ", obj=" + obj + "]";
+	}
+	
+
+}
+---------------------------------------------
+create class B B.java
+package com.pojo.refType;
+
+public class B {
+	private int y;
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
+	public B(int y) {
+		super();
+		this.y = y;
+	}
+
+	public B() {
+		super();
+	}
+
+	@Override
+	public String toString() {
+		return "B [y=" + y + "]";
+	}
+
+}
+-----------------------------------------------------
+create refConf.xml
+--------------------------
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+                http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+                
+    <bean class="com.pojo.refType.B" name="bref">
+    	<property name="y" value="90"  />
+    </bean>
+    
+    <bean class="com.pojo.refType.A" name="aref">
+    	<property name="x" value="12"  />
+    	<property name="obj">
+    		<ref bean="bref"/>
+    	</property>
+    </bean>
+    
+    <bean class="com.pojo.refType.A" name="aref1">
+    	<property name="x" value="13"  />
+    	<property name="obj" ref="bref" />
+    		
+    </bean>
+    
+     <bean class="com.pojo.refType.A" name="aref2" p:x="45" p:obj-ref="bref" />
+    
+
+</beans>  
+-------------------------------------------------------------------------
+create a class MyMain.java
+--------------------------
+package com.pojo.refType;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class MyMain {
+
+	public static void main(String[] args) {
+		
+		ApplicationContext context = new ClassPathXmlApplicationContext("com/pojo/reftype/refConf.xml");
+		A temp = (A)context.getBean("aref");
+		System.out.println(temp.getX());
+		System.out.println(temp.getObj());
+		System.out.println(temp.getObj().getY());
+		System.out.println(temp);
+		
+		A temp1 = (A)context.getBean("aref1");
+		System.out.println(temp1.getX());
+		System.out.println(temp1.getObj());
+		System.out.println(temp1.getObj().getY());
+		System.out.println(temp1);
+		
+		
+		A temp2 = (A)context.getBean("aref2");
+		System.out.println(temp2.getX());
+		System.out.println(temp2.getObj());
+		System.out.println(temp2.getObj().getY());
+		System.out.println(temp2);
+
+	}
+
+}
+----------------------------------------------------------------

@@ -1,0 +1,138 @@
+  	Java Base Configuration using @Bean
+--------------------------------------------------------------
+1. create package com.demo7
+2. create class Product
+-----------------------------
+package com.demo7;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+//@Component
+public class Product {
+	@Value("101")
+	private int prod_id;
+	@Value("Iphone 12")
+	private String prod_name;
+	@Value("45000.50")
+	private float prod_price;
+	@Autowired
+	private ProductDesc prod_desc;
+	
+	public int getProd_id() {
+		return prod_id;
+	}
+	public void setProd_id(int prod_id) {
+		this.prod_id = prod_id;
+	}
+	public String getProd_name() {
+		return prod_name;
+	}
+	public void setProd_name(String prod_name) {
+		this.prod_name = prod_name;
+	}
+	public float getProd_price() {
+		return prod_price;
+	}
+	public void setProd_price(float prod_price) {
+		this.prod_price = prod_price;
+	}
+	public ProductDesc getProd_desc() {
+		return prod_desc;
+	}
+	public void setProd_desc(ProductDesc prod_desc) {
+		this.prod_desc = prod_desc;
+	}
+	@Override
+	public String toString() {
+		return "Product [prod_id=" + prod_id + ", prod_name=" + prod_name + ", prod_price=" + prod_price
+				+ ", prod_desc=" + prod_desc + "]";
+	}
+	
+
+	
+}
+------------------------------------------------------------------------------
+3. create class ProductDesc
+---------------------------
+package com.demo7;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+@Component
+public class ProductDesc {
+
+	@Value("Very Good")
+	private String prod_quality;
+	@Value("Apple")
+	private String prod_brand;
+	public String getProd_quality() {
+		return prod_quality;
+	}
+	public void setProd_quality(String prod_quality) {
+		this.prod_quality = prod_quality;
+	}
+	public String getProd_brand() {
+		return prod_brand;
+	}
+	public void setProd_brand(String prod_brand) {
+		this.prod_brand = prod_brand;
+	}
+	@Override
+	public String toString() {
+		return "prod_quality=" + prod_quality + ", prod_brand=" + prod_brand + "";
+	}
+}
+----------------------------------------------------------------------------------------------
+4. create class JavaConfigurationClass
+--------------------------------------
+package com.demo7;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+//@ComponentScan(basePackages = "com.demo6")
+public class JavaConfigurationClass {
+
+	@Bean
+	public Product getProduct() {
+		Product product = new Product();
+		product.setProd_desc(getDesc());
+		return product;
+		
+	}
+	
+	@Bean
+	public ProductDesc getDesc() {
+		ProductDesc desc = new ProductDesc();
+		return desc;
+	}
+}
+------------------------------------------
+5. create MainClass
+--------------------
+package com.demo7;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+public class MainClass {
+
+	public static void main(String[] args) {
+		ApplicationContext context = new AnnotationConfigApplicationContext(JavaConfigurationClass.class);
+		Product prod =context.getBean("getProduct", Product.class);
+		System.out.println(prod.getProd_id());
+		System.out.println(prod.getProd_name());
+		System.out.println(prod.getProd_price());
+		System.out.println(prod.getProd_desc().getProd_brand());
+		System.out.println(prod.getProd_desc().getProd_quality());
+
+
+	}
+
+}
+-----------------------------------------------------------------------------------------------------

@@ -1,0 +1,85 @@
+create class Person.java
+------------------------------
+package com.pojo.ci;
+
+public class Person {
+	private int personId;
+	private String name;
+	private Certi certi;
+	public Person(String name,int personId, Certi certi) {
+		this.name=name;
+		this.personId=personId;
+		this.certi=certi;
+	}
+	@Override
+	public String toString() {
+		return "Person--> personId=" + personId + ", name=" + name + " Certi ="+certi+"";
+	}
+	
+
+}
+------------------------------------------------
+create another class Certi.java
+---------------------------
+package com.pojo.ci;
+
+public class Certi {
+	private String name;
+
+	public Certi(String name) {
+		super();
+		this.name = name;
+	}
+
+	@Override
+	public String toString() {
+		return "Certi name=" + name + "";
+	}
+	
+
+}
+-----------------------------------------------------------
+create a xml file ciconfig.xml
+------------------------------
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+                http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean class="com.pojo.ci.Certi" name="certi">
+		<constructor-arg value="Spring Certification" />
+	</bean>
+	
+	<bean class="com.pojo.ci.Certi" name="certi1"
+	c:name="My Udemy Certificate">
+	</bean>
+
+	<bean class="com.pojo.ci.Person" name="person">
+		<constructor-arg value="Bhushan" />
+		<constructor-arg value="12" />
+		<constructor-arg ref="certi1" ></constructor-arg>
+	</bean>
+</beans>  
+-----------------------------------------------------------
+create main class MyMain.java
+---------------------------------
+package com.pojo.ci;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class MyMain {
+
+	public static void main(String[] args) {
+		ApplicationContext context =new ClassPathXmlApplicationContext("com/pojo/ci/ciconfig.xml");
+		Person p= (Person)context.getBean("person");
+		System.out.println(p);
+
+	}
+
+}
+
+----------------------------------------------------

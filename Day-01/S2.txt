@@ -1,0 +1,115 @@
+Create a class Employee.java
+-------------------
+package com.pojo.collection;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+public class Employee {
+	private String name;
+	private List<String> phones;
+	private Set<String> addresses;
+	private Map<String,String>courses;
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public List<String> getPhones() {
+		return phones;
+	}
+	public void setPhones(List<String> phones) {
+		this.phones = phones;
+	}
+	public Set<String> getAddresses() {
+		return addresses;
+	}
+	public void setAddresses(Set<String> addresses) {
+		this.addresses = addresses;
+	}
+	public Map<String, String> getCourses() {
+		return courses;
+	}
+	public void setCourses(Map<String, String> courses) {
+		this.courses = courses;
+	}
+	public Employee(String name, List<String> phones, Set<String> addresses, Map<String, String> courses) {
+		super();
+		this.name = name;
+		this.phones = phones;
+		this.addresses = addresses;
+		this.courses = courses;
+	}
+	public Employee() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	@Override
+	public String toString() {
+		return "Employee [name=" + name + ", phones=" + phones + ", addresses=" + addresses + ", courses=" + courses
+				+ "]";
+	}
+	
+	
+	
+}
+----------------------------------------------------------------
+create a cconfig.xml file as below
+-----------------------------------------
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	<bean class="com.pojo.collection.Employee" name="emp">
+		<property name="name" value="Bhushan" />
+		<property name="phones">
+			<list>
+				<value>123</value>
+				<value>13</value>
+				<value>1</value>
+			</list>
+		</property>
+		<property name="addresses">
+			<set>
+				<value>Mumbai</value>
+				<value>Delhi</value>
+				<value>Nagpur</value>
+			</set>
+		</property>
+		<property name="courses">
+			<map>
+				<entry key="Java" value="2months" />
+				<entry key="C#" value="2months" />
+			</map>
+		</property>
+
+
+	</bean>
+
+</beans>  
+-----------------------------------------------------------------------------
+create a new class MyMain.java
+package com.pojo.collection;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class MyMain {
+
+	public static void main(String[] args) {
+		ApplicationContext context = new ClassPathXmlApplicationContext("com/pojo/collection/cconfig.xml");
+		Employee emp = (Employee) context.getBean("emp");
+		System.out.println(emp.getName());
+		System.out.println(emp.getPhones());
+		System.out.println(emp.getAddresses());
+		System.out.println(emp.getCourses());
+		
+
+	}
+
+}
+-------------------------------------------------------------------------------

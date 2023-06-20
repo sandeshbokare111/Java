@@ -1,0 +1,30 @@
+<!-- Create an HTML5 page containing a textbox and a button titled Get Details.
+The user will enter a user id in the textbox. On the button click, make a GET
+request using the fetch API to the following URL:
+https://jsonplaceholder.typicode.com/users/ Pass the user id entered in the
+textbox as a query string & display the information about the user in a --> 
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Get method</title>
+  </head>
+  <body>
+    <label for="site-search">Enter a user ID:</label>
+    <input type="search" id="searchId" name="q"/>
+    <br /><br />
+    <button onclick="getD()">Get details</button>
+    <br /><br/>
+    <div id="d"></div>
+    <script>
+      function getD() {
+        let uname = document.getElementById("searchId").value;
+        data = fetch("https://jsonplaceholder.typicode.com/users/" + uname)
+          .then((response) => response.json())
+          .then((json) => {
+            document.getElementById("d").innerHTML = JSON.stringify(json);
+          });
+      }
+    </script>
+  </body>
+</html>

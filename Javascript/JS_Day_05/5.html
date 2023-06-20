@@ -1,0 +1,73 @@
+<!--5.	Add another button which makes a PUT request to the same URL. In this case, the name, username or email might be modified. Pass the entered id as a query string. 
+Check by hitting the same URL to see if the record was modified or not.   -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Get method</title>
+  </head>
+  <body>
+    <label for="search">Enter a user ID:</label>
+    <input type="search" id="searchId" name="q" />
+    <br /><br />
+    <label for="name-search">Enter name:</label>
+    <input type="search" id="Na" name="q" />
+    <br /><br />
+    <label for="Username-search">Enter a user Name:</label>
+    <input type="search" id="userName" name="q" />
+    <br /><br />
+
+    <button onclick="getD()">Post details</button>
+    <br />
+    <button onclick="getM()">click to check if data been modified</button>
+    <br /><br />
+    <div id="d"></div>
+    <div id="m"></div>
+    <script>;
+        function getD() {
+        let uId = document.getElementById("searchId").value;
+        let nam = document.getElementById("Na").value;
+        let Uname = document.getElementById("userName").value;
+        //console.log(`${uId} ${nam} ${Uname}`);
+        //let newUser = { ID: uId, Name: nam, Username: Uname };
+        fetch("https://jsonplaceholder.typicode.com/users/", {
+          method: "POST",
+          body: JSON.stringify({
+            id: uId,
+            name: nam,
+            username: Uname
+          }),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        })
+          .then((response) => response.json())
+          .then((json) => {
+            document.getElementById("d").innerHTML = JSON.stringify(json);
+          });
+        }
+
+        //resource will not be really updated on the server but it will be faked as if and here it return as 404 error and result goona display as empty object
+        function getM(){
+        let uId = document.getElementById("searchId").value;
+        let nam = document.getElementById("Na").value;
+        let Uname = document.getElementById("userName").value;
+        fetch("https://jsonplaceholder.typicode.com/users/"+uId, {
+          method: "PUT",
+          body: JSON.stringify({
+            id: uId,
+            name: nam,
+            username: Uname
+          }), 
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        })
+          .then((response) => response.json())
+          .then((json) => {
+            document.getElementById("m").innerHTML = JSON.stringify(json);
+          })
+        };
+        
+    </script>
+  </body>
+</html>

@@ -1,0 +1,37 @@
+<!-- Create a JSON file with some sample data & save it on your local drive.
+Using XmlHttpRequest, display information from the file in a table format.-->
+<!DOCTYPE html>
+<html>
+  <body>
+    <h2>Displaying json in table format</h2>
+    <button type="button" onclick="loadXMLDoc()">Show Content</button>
+    <table id="table_body"></table>
+    <script>
+      function loadXMLDoc() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("GET", "sample.json", true);
+        xhttp.onreadystatechange = function () {
+          if (this.readyState == 4 && this.status == 200) {
+            var json = JSON.parse(xhttp.responseText);
+            createTable(json);
+          } else {
+            console.log("Error");
+          }
+        };
+        xhttp.send();
+      }
+      function createTable(json) {
+        var tableBody = document.getElementById("table_body");
+        json.forEach((row) => {
+          var tr = document.createElement("tr");
+          Object.keys(row).forEach((cell) => {
+            var td = document.createElement("td");
+            td.textContent = row[cell];
+            tr.appendChild(td);
+          });
+          tableBody.appendChild(tr);
+        });
+      }
+    </script>
+  </body>
+</html>

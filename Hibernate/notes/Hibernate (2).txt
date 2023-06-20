@@ -1,0 +1,37 @@
+What is Hibernate?
+What is ORM?
+What Challanges we have to face in JDBC API based application.
+Answer: 
+     At the time of creation:
+	1. Mapping data members to column (number of data members with columns in table)
+	2. Mapping Relationship (parent child, primary key foreign key)
+	3. Handling Data types (May face type mismatch)
+	4. Mapping changes to object state (IF do changes in Object then also need to map
+	means change type of any member or add additional member)
+     Challenges At the time of saving data in database using JDBC:
+	1. JDBC configuration
+		1. 5 Steps of configuration.
+		2. Exception Handling.
+		3. Object Model
+			Need to save data seperately, using methods in service.
+		4. DAO, use to save your object in database, but for this we have to use SQL
+		   queries. They are Database specific.
+		5. Caching is not available in JDBC. (Swipe ID card for Database entry)
+		6. Transaction -- Rollback example, can be done explicitly
+
+What are Benefits of Hibernate?
+Answer: 
+	1. All drawbacks of JDBC API can be overcome in Hibernate.
+	2. Hibernate supports auto data definition language (ddl) which supports (create, alter, truncate, drop)
+	3. You need to provide only hibernate mapping means database details.
+	4. No need to create table
+	5. Hibernate supports ORM. Means saves object into table.
+	6. Primary and foreign keys relationship can be easily managed by Hibernate.
+	7. Support HQL. Hibernate query language.
+	8. Exception handling
+
+First Demo for Hibernate:
+Step 1. Create a database in MSSQL
+Step 2. Open Eclipse and Create new Project
+Step 3. Add All Jar in project
+Step 4. Add mapping and congig file.	

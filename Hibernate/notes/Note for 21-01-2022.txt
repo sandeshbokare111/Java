@@ -1,0 +1,41 @@
+
+Persistent Class
+Persistent Object
+Configuration --> configure
+SessionFactory
+Session
+Transaction
+--------------CRUD operation
+HQL - hibernate Query Language
+-----------------------------
+1. it works same like SQL statement.
+but it's not depends on table name , here we have to specify name of
+respective persistent class.
+kindly visit ->https://www.javatpoint.com/hql
+------------------------------------------------------------
+Step by Step implementation
+1. Create new project 
+2. add all jars
+3. create a package for models/persistent classes
+4. create persistent class "Customer" in com.model package
+	add attributes and create setters and getters
+5. add a configuration file.
+	cusomter.cfg.xml
+6. add mapping file
+	customer.hbm.xml
+7. Dao -- create a package for DAO
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

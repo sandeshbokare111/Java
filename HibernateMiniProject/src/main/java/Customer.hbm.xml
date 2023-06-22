@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+<class name = "com.entities.Customer" table = "Hotelmanagement">
+
+<meta attribute = "class-description">
+          For Customer Class
+</meta>
+
+
+<id name = "customerID" type = "int" column = "cust_id">
+<generator class="native"/>
+</id>
+
+<property name = "name" column = "cust_name" type = "string"/>
+<property name = "Gender" column = "Gender" type = "string"/>
+<property name = "Age" column = "Age" type = "int"/>
+<property name = "Address" column = "Address" type = "string"/>
+<property name = "Phone" column = "Phone" type = "long"/>
+<property name = "Email" column = "Email" type = "string"/>
+
+
+
+</class>
+</hibernate-mapping>

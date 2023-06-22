@@ -1,50 +1,70 @@
 package com.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-@Controller
-@RequestMapping("/app")
-public class HomeController {
 
-	// handler methods 
-	@RequestMapping("/message")
-	@ResponseBody
-	public String getMessage() {
-		
-		return "Good Afternoon";
-	}
+
+import com.dao.ProductDaoImpl;
+import com.model.Product;
+
+
+
+
+@Controller
+public class HomeController {
+	static ApplicationContext context = new AnnotationConfigApplicationContext(JavaConfiguratition.class);
+	static ProductDaoImpl pDao=context.getBean("pDao", ProductDaoImpl.class);
 	
 	@RequestMapping("/home")
-	public String getHome(Model model) {
-		System.out.println("getHome Method Called");
-		model.addAttribute("student","John");
-		model.addAttribute("id","102");
-		List<String> cities = new ArrayList();
-		cities.add("Mumbai");
-		cities.add("Delhi");
-		cities.add("Chennai");
-		model.addAttribute("cities",cities);		
+	public String getHomePage() {
+		
 		return "home";
+		
 	}
 	
-	@RequestMapping("/course")
-	public ModelAndView courses() {
-		ModelAndView mv = new ModelAndView();
-		mv.addObject("dept","IT");
-		List<String> courses = new ArrayList();
-		courses.add("C#");
-		courses.add("Java");
-		courses.add("HTMl");
-		mv.addObject("crs", courses);
-		mv.setViewName("courses");
+	@RequestMapping("/addProduct")
+	public String addProduct() {
+		return "addProduct";
+	}
+	
+	@RequestMapping("/added")
+	public String insertProduct(@RequestParam("pid") int pid,@RequestParam("pname") String pname, @RequestParam("pprice")float pprice) {
+		System.out.println(pid);
+		System.out.println(pname);
+		System.out.println(pprice);
+		Product prod = new Product();
+		prod.setPid(pid);
+		prod.setPname(pname);
+		prod.setPprice(pprice);
+		pDao.insertProduct(prod);
+		return "addMessage";
+	}
+	
+	@RequestMapping("/products")
+	public ModelAndView getProducts(ModelAndView mv) {
+		List<Product> products =pDao.getAllProduct();
+		mv.addObject("products",products);
+		mv.setViewName("products");
 		return mv;
 	}
 	
+	@RequestMapping("/update")
+	public String updateProduct() {
+		return "update";
+	}
+	
+	@RequestMapping("/updateSuccess")
+	public String updateSuccess(@ModelAttribute Product product) {
+		pDao.updateProduct(product);
+		return "updateSuc";
+	}
+
 }
